@@ -1,0 +1,29 @@
+
+
+.selection-view-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: space-between;
+}
+
+.selection-view-row {
+  margin-left: '1em';
+  display: flex;
+  flex-direction: row;
+  align-items: space-between;
+  justify-content: space-between;
+}
+
+.selection-view-row .option-name {
+  color: black;
+  font-weight: bold;
+  margin-left: 1em;
+  font-size: small;
+}
+
+.selection-view-row .paragraph-selection {
+  color: black;
+  font-size: small;
+  margin-right: 1em;
+}

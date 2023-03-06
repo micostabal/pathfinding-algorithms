@@ -1,0 +1,13 @@
+
+[class|="square"] {
+  border-radius: 2px;
+  height: 0.7em;
+  width: 0.7em;
+  border: 1px solid black;
+  margin-top: 1px;
+  margin-left: 1px;
+}
+
+[title~="openSet"] {
+  border: 1px solid white;
+}
