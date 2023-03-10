@@ -1,13 +1,26 @@
 
 [class|="square"] {
   border-radius: 2px;
-  height: 0.7em;
-  width: 0.7em;
+  height: 0.9em;
+  width: 0.9em;
   border: 1px solid black;
   margin-top: 1px;
   margin-left: 1px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform .2s; /* Animation */
 }
 
-[title~="openSet"] {
+[title~="open-set"] {
   border: 1px solid white;
+}
+
+[title~="optimal-path"] {
+  border: 1px solid white;
+}
+
+[class$="dragging"] {
+  transform: scale(1.8);
 }

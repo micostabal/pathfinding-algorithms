@@ -1,29 +1,26 @@
 import React, {useContext, useState} from "react";
 import { Point } from "../../GridComponents/Point";
-import { SelectionContext } from "./GridContext";
-import SelectionMode from "./SelectionMode";
+import { SelectionContext } from "./SelectionContext";
 import { interpolateColor } from "./Utils";
 import { distance } from "../../PathFindingAlgorithms/GridUtils";
+import {VscDebugStart, VscRecord} from "react-icons/vsc";
 import {START_COLOR, END_COLOR} from "./Constants";
 import "./Square.css";
+import { GridActions } from "./GridActions";
+import { SelectionState } from "./selectionStates/SelectionState";
 
-const SelectionClassNames = {
-  notSelected: 'square-not-selected',
-  selected: 'square-selected',
-  wall: 'square-wall'
-}
 
 const Square = ({row, col}) => {
-  const [className, setClassName] = useState(SelectionClassNames.notSelected);
+  const [squareIsDragging, setSquareIsDragging] = useState(false);
   const {
-    isDragging,
-    setIsDragging,
     selectionState : {
       executionState,
       selectedDestination,
       selectedOrigin,
-      mode,
-      algorithm
+      algorithm,
+      wallSquares,
+      isDragging,
+      selectionState
     },
     selectionDispatcher
   } = useContext(SelectionContext);
@@ -38,7 +35,7 @@ const Square = ({row, col}) => {
     else if (!executionState.openSet.has(Point.of(row, col))) {
       return "";
     } else {
-      return "openSet";
+      return "open-set";
     }
   };
 
@@ -73,62 +70,68 @@ const Square = ({row, col}) => {
         );
       }
     }
-    switch (className) {
-      case SelectionClassNames.notSelected:
-        return '#5B5EA6';
-      case SelectionClassNames.selected:
-        return '#45B8AC';
-      case SelectionClassNames.wall:
-        return 'black';
-      default:
-        throw new Error("No Valid color / state for square!!");
+    if (wallSquares.contains(Point.of(row, col))) {
+      return 'black';
     }
-  }
-  
-  const triggerDispatcher = () => {
-    selectionDispatcher({
-      type: mode,
-      i: row,
-      j: col
-    });
+    return '#5B5EA6';
   }
   
   return (
     <div
-      onClick={ () => {
-        if (mode===SelectionMode.selectOrigin
-           || mode===SelectionMode.selectDestination) {
-          setClassName(SelectionClassNames.selected);
-          triggerDispatcher();
-        }
-      }}
       onMouseDown={ () => {
-        if (mode===SelectionMode.addWallSquare) {
-          setClassName(SelectionClassNames.wall);
-          setIsDragging(true);
-          triggerDispatcher();
-        }
+        selectionDispatcher({
+          type: GridActions.mouseDown,
+          i: row,
+          j: col
+        });
+        setSquareIsDragging(true);
+        
       }}
       onMouseUp={ () => {
-        if (mode===SelectionMode.addWallSquare) {
-          setClassName(SelectionClassNames.wall);
-          setIsDragging(false);
-          triggerDispatcher();
-        }
+        setSquareIsDragging(false);
+        selectionDispatcher({
+          type: GridActions.mouseUp,
+          i: row,
+          j: col
+        });
       }}
       onMouseOver={ () => {
-        if (isDragging && neitherOriginNorDestination() ) {
-          setClassName(SelectionClassNames.wall);
-          if (mode===SelectionMode.addWallSquare) {
-            triggerDispatcher();
-          }
+        selectionDispatcher({
+          type: GridActions.mouseOver,
+          i: row,
+          j: col
+        });
+      }}
+      onMouseEnter={ () => {
+        if (isDragging) {
+          setSquareIsDragging(true);
+          selectionDispatcher({
+            type: GridActions.mouseEnter,
+            i: row,
+            j: col
+          });
         }
       }}
-      title={ getTitle() }
-      className={className}
+      onMouseLeave={ () => {
+        if (isDragging) {
+          setSquareIsDragging(false);
+          selectionDispatcher({
+            type: GridActions.mouseLeave,
+            i: row,
+            j: col
+          });
+        }
+      }}
+      title={getTitle()}
+      className={'square' + (squareIsDragging ? "-dragging" : "")}
       style= {{backgroundColor: getColor()}}
     >
-
+      {Point.of(row, col).equals(selectedOrigin) || (selectionState===SelectionState.selectOrigin
+       && squareIsDragging )
+       ? <VscDebugStart color="#F9F6EE"/> : null}
+      {Point.of(row, col).equals(selectedDestination)  || (selectionState===SelectionState.selectDestination
+       && squareIsDragging )
+       ? <VscRecord color="red"/> : null}
     </div>
   )
 }

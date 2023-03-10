@@ -43,6 +43,10 @@ export class PriorityQueue {
   size () {
     return this._map.length;
   }
+
+  isEmpty() {
+    return this._map.length===0;
+  }
   
   getFirst() {
     const shifted = this._map.shift();

@@ -13,7 +13,7 @@ export const About = () => {
           width: '50%'
         }}
       >
-        <p>I don't want to reveal my identity</p>
+        <p>I'm Martin Costabal, a software enthusiast.</p>
         <p>
           This app was created to have fun and learn about pathfinding in grids and React.
         </p>
@@ -22,8 +22,8 @@ export const About = () => {
             href="https://clementmihailescu.github.io/Pathfinding-Visualizer/"
             style={{color: 'orange'}}
           >
-            Clement Mihailescu's  
-          </a> and thought that making my own version of this visualization would be awesome as well.
+            Clement Mihailescu's
+          </a> visualization (yeah! the algoexpert youtuber) and thought that making my own version of it would be awesome as well.
         </p>
       </div>
     </div>

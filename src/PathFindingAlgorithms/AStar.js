@@ -32,11 +32,19 @@ export class AStar {
       fScore: this._fScore
     }
   }
-
-  isFinished() {
+  
+  get finished() {
     return this._finished;
   }
 
+  set finished(newValue) {
+    this._finished=newValue;
+  }
+  
+  isFinished() {
+    return this._finished;
+  }
+  
   isSuccess() {
     return this._success;
   }
@@ -59,6 +67,11 @@ export class AStar {
   }
   
   executeIteration() {
+    if (this._openSet.isEmpty()) {
+      this.terminateFail();
+      return;
+    }
+    
     const current = this._openSet.getFirst();
     
     if (current.equals(this._destination)) {
@@ -95,8 +108,8 @@ export class AStar {
   suiteExecution() {
     this.initialize();
     while(!this._finished) {
-      this.executeIteration();
       if (this._openSet.size()===0) this.terminateFail();
+      this.executeIteration();
     }
     return [this._success, this._path];
   }
