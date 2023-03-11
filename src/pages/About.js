@@ -20,10 +20,17 @@ export const About = () => {
         <p>
           Must confess I was hugely inspired in <a
             href="https://clementmihailescu.github.io/Pathfinding-Visualizer/"
-            style={{color: 'orange'}}
+            style={{color: 'orange', target: "_blank"}}
+            rel="noreferrer"
+            target="_blank"
           >
             Clement Mihailescu's
-          </a> visualization (yeah! the algoexpert youtuber) and thought that making my own version of it would be awesome as well.
+          </a> visualization (yeah! the <a href="https://www.youtube.com/@clem"
+          style={{color: 'orange'}}
+          rel="noreferrer"
+          target="_blank"
+          >youtuber</a>
+           ) and thought that making my own version of it would be awesome as well.
         </p>
       </div>
     </div>

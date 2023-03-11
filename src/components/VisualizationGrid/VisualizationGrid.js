@@ -3,10 +3,16 @@ import Grid from './Grid';
 
 export const VisualizationGrid = () => {
   return (
-    <div className="App">
-      <div style={{display: 'flex', flexDirection: 'row'}}>
+    <div
+      className=''
+      style={{
+        display: 'flex',
+        flexDirection: 'row'
+      }}
+    >
+      <div className="App">
+        <Grid />
       </div>
-      <Grid />
     </div>
   )
 }

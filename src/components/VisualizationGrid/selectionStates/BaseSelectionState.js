@@ -1,4 +1,4 @@
-import { Point } from "../../../GridComponents/Point";
+import { Point } from "../../GridComponents/Point";
 import { SelectionState } from "./SelectionState";
 
 

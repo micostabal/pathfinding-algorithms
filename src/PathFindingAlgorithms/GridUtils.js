@@ -1,5 +1,5 @@
-import { Point } from "../GridComponents/Point";
-import { PointList } from "../GridComponents/PointList";
+import { Point } from "../components/GridComponents/Point";
+import { PointList } from "../components/GridComponents/PointList";
 
 export const SEPARATOR=',';
 

@@ -12,7 +12,7 @@ import { ImSun } from 'react-icons/im';
 import {WiMoonWaningCrescent2} from 'react-icons/wi';
 import './styles.css';
 
-export const Navbar = () => {
+export const Navbar = ({theme, themeSetter}) => {
   return (
     <>
       <Nav>
@@ -29,7 +29,9 @@ export const Navbar = () => {
         <NavBtn>
           <Toggle
             className='theme-toggle'
-            onChange = {(newValue) => { console.log(newValue.target.value);}}
+            onChange = {(newValue) => {
+              themeSetter(theme==='light' ? 'dark' : 'light')
+            }}
             icons={{checked: <ImSun style={{height: '0.8em', transform: `translate(0px, -0.1em)`}}/>,
             unchecked: <WiMoonWaningCrescent2 style={{height: '0.9em', transform: `translate(0px, -0.1em)`}}/>
           }}/>

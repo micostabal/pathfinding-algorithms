@@ -1,7 +1,7 @@
 import { AStar } from "../src/PathFindingAlgorithms/AStar";
 import { distance } from "../src/PathFindingAlgorithms/GridUtils";
-import { Point } from "../src/GridComponents/Point";
-import { PointList } from "../src/GridComponents/PointList";
+import { Point } from "../src/components/GridComponents/Point";
+import { PointList } from "../src/components/GridComponents/PointList";
 
 describe('A* algorithm should work bug free', () => {
 
@@ -24,7 +24,6 @@ describe('A* algorithm should work bug free', () => {
     const aStarInstance = new AStar(n, m, walls, origin, destination);
     
     const [wasFound, path] = aStarInstance.suiteExecution();
-    console.log(wasFound);
 
     const pathList = path.points;
     

@@ -6,5 +6,6 @@ export const SelectionState = {
   addWallSquare: 'add-wall',
   inactive: 'inactive',
   execute: 'execute',
-  nextIter: 'nextIter'
+  nextIter: 'nextIter',
+  algorithmSelection: 'algorithm-selection'
 };

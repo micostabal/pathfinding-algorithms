@@ -5,8 +5,8 @@ import {
   reconstructPath,
   gridNeighbors
 } from './GridUtils';
-import { Point } from '../GridComponents/Point';
-import { PointMap } from '../GridComponents/PointMap';
+import { Point } from '../components/GridComponents/Point';
+import { PointMap } from '../components/GridComponents/PointMap';
 
 export class AStar {
 

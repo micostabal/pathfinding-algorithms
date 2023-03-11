@@ -1,5 +1,5 @@
 import React, {useContext, useState} from "react";
-import { Point } from "../../GridComponents/Point";
+import { Point } from "../GridComponents/Point";
 import { SelectionContext } from "./SelectionContext";
 import { interpolateColor } from "./Utils";
 import { distance } from "../../PathFindingAlgorithms/GridUtils";
