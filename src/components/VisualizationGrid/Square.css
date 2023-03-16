@@ -18,7 +18,8 @@
 }
 
 [title~="optimal-path"] {
-  border: 1px solid white;
+  border: 1px solid #00FF7F;
+  background-color: aquamarine;
 }
 
 [class$="dragging"] {

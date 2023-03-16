@@ -1,10 +1,10 @@
-import { PriorityQueue } from "../src/PathFindingAlgorithms/GridUtils";
-import { Point } from "../src/GridComponents/Point";
+import { PriorityQueue, distanceToPoint } from "../src/PathFindingAlgorithms/GridUtils";
+import { Point } from "../src/components/GridComponents/Point";
 
 describe('PriorityQueue should have sound logic', () => {
 
   it('should be a able to create an PriorityQueue', () => {
-    const fspq = new PriorityQueue(Point.of(1,1));
+    const fspq = new PriorityQueue(distanceToPoint(Point.of(1,1)));
     expect(fspq.size()).toBe(0);
   });
   
@@ -14,24 +14,24 @@ describe('PriorityQueue should have sound logic', () => {
   });
   
   it ('should throw error if pops without elements', () => {
-    const fspq = new PriorityQueue(Point.of(1,1));
+    const fspq = new PriorityQueue(distanceToPoint(Point.of(1,1)));
     expect(() => fspq.getFirst()).toThrow(Error);
   });
   
   it ('should be able to insert elements in the queue', () => {
-    const fspq = new PriorityQueue(Point.of(2,2));
+    const fspq = new PriorityQueue(distanceToPoint(Point.of(2,2)));
     fspq.insert(Point.of(98, 98));
     expect(fspq.size()).toBe(1);
   });
 
   it ('should be able to assert whether an element is in the queue', () => {
-    const fspq = new PriorityQueue(Point.of(2, 2));
+    const fspq = new PriorityQueue(distanceToPoint(Point.of(2, 2)));
     fspq.insert(Point.of(1, 2));
     expect(fspq.has(Point.of(1,2))).toBe(true);
   });
-
+  
   it ('should be able to delete elements in the queue', () => {
-    const fspq = new PriorityQueue(Point.of(2, 2));
+    const fspq = new PriorityQueue(distanceToPoint(Point.of(2, 2)));
     fspq.insert(Point.of(98, 98));
     fspq.insert(Point.of(1, 2));
     fspq.remove(Point.of(1, 2));
@@ -40,7 +40,7 @@ describe('PriorityQueue should have sound logic', () => {
   });
   
   it('should be able to insert element in the correct position', () => {
-    const fspq = new PriorityQueue(Point.of(3, 3));
+    const fspq = new PriorityQueue(distanceToPoint(Point.of(3, 3)));
     fspq.insert(Point.of(98, 99));
     fspq.insert(Point.of(4, 5));
     
@@ -50,7 +50,7 @@ describe('PriorityQueue should have sound logic', () => {
   });
 
   it('should be able to havee a sound size logic', () => {
-    const fspq = new PriorityQueue([3, 3]);
+    const fspq = new PriorityQueue(distanceToPoint(Point.of(3, 3)));
     expect(fspq.size()).toBe(0);
     fspq.insert(Point.of(98, 99));
     expect(fspq.size()).toBe(1);

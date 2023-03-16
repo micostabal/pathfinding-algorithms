@@ -16,19 +16,23 @@ export function distance(p1, p2) {
   return Math.sqrt((p1.row-p2.row)**2+(p1.col-p2.col)**2);
 }
 
+export function distanceToPoint(referencePoint) {
+  return (point) => distance(point, referencePoint);
+}
+
 export class PriorityQueue {
   
-  constructor(destination) {
-    this._destination=destination;
+  constructor(costFunction) {
+    this._costFunction=costFunction;
     this._map = [];
   }
-
+  
   get map() {return this._map};
   
   insert(newElement) {
     this._map.push(newElement);
     this._map = this._map
-      .sort( (a, b) => distance(a, this._destination)-distance(b, this._destination));
+      .sort( (a, b) => this._costFunction(a)-this._costFunction(b));
   }
   
   has(element) {

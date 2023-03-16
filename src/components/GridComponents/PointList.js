@@ -34,6 +34,13 @@ export class PointList {
     }
   }
 
+  slice(endIndex) {
+    const previousPoints = this.points;
+    const newPointList = new PointList();
+    newPointList.points = previousPoints.slice(0, endIndex);
+    return newPointList;
+  }
+
   [Symbol.iterator]() {
     var index = -1;
 

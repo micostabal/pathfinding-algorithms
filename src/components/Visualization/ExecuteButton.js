@@ -7,7 +7,7 @@ import { EXECUTION_INTERVAL } from "../VisualizationGrid/Constants";
 export const ExecuteButton = () => {
   const {
     selectionDispatcher,
-    selectionState: { algorithm, algorithmType, finished }
+    selectionState: { algorithm, algorithmType }
   } = useContext(SelectionContext);
   const [executing, setExecuting] = useState(false);
   

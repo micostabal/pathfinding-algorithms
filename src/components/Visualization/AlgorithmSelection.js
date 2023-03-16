@@ -11,7 +11,7 @@ export const AlgorithmSelection = () => {
     selectionDispatcher,
     selectionState: { algorithmType }
   } = useContext(SelectionContext);
-
+  
   const getText = () => {
     if (algorithmType) {
       return AlgorithmTypes

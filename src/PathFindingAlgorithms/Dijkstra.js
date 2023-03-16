@@ -3,10 +3,11 @@ import {
   distance,
   PriorityQueue,
   reconstructPath,
-  gridNeighbors
+  gridNeighbors,
+  distanceToPoint
 } from './GridUtils';
-import { Point } from '../GridComponents/Point';
-import { PointMap } from '../GridComponents/PointMap';
+import { Point } from '../components/GridComponents/Point';
+import { PointMap } from '../components/GridComponents/PointMap';
 
 export class Dijkstra {
 
@@ -19,7 +20,7 @@ export class Dijkstra {
     this._gScore = new PointMap(serializeTuple);
     this._fScore = new PointMap(serializeTuple);
     this._cameFrom = new PointMap(serializeTuple);
-    this._openSet = new PriorityQueue(destination);
+    this._openSet = new PriorityQueue(distanceToPoint(origin));
     this._finished=false;
     this._success=null;
     this._path=null;

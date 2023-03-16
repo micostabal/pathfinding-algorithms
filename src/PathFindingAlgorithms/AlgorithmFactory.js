@@ -1,4 +1,5 @@
 import { AStar } from "./AStar";
+import { Dijkstra } from "./Dijkstra";
 
 class AlgorithmFactory {
   create(name, params) {
@@ -10,7 +11,7 @@ class AlgorithmFactory {
       case 'dfs':
         return new AStar(...params);
       case 'dijkstra':
-        return new AStar(...params);
+        return new Dijkstra(...params);
       default: throw new Error('No such Pathfinding Algorithm Type');
     }
   }

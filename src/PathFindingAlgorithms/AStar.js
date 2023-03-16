@@ -3,7 +3,8 @@ import {
   distance,
   PriorityQueue,
   reconstructPath,
-  gridNeighbors
+  gridNeighbors,
+  distanceToPoint
 } from './GridUtils';
 import { Point } from '../components/GridComponents/Point';
 import { PointMap } from '../components/GridComponents/PointMap';
@@ -19,7 +20,7 @@ export class AStar {
     this._gScore = new PointMap(serializeTuple);
     this._fScore = new PointMap(serializeTuple);
     this._cameFrom = new PointMap(serializeTuple);
-    this._openSet = new PriorityQueue(destination);
+    this._openSet = new PriorityQueue(distanceToPoint(destination));
     this._finished=false;
     this._success=null;
     this._path=null;
@@ -62,7 +63,6 @@ export class AStar {
     }
     this._gScore.set(this._origin, 0);
     this._fScore.set(this._origin, distance(this._destination, this._origin));
-    
     this._openSet.insert(this._origin);
   }
   

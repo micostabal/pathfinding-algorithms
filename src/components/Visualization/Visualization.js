@@ -10,8 +10,9 @@ import { SelectionStateFactory } from '../VisualizationGrid/selectionStates/Sele
 import { GridActions } from '../VisualizationGrid/GridActions';
 import { N_ROWS, N_COLUMNS } from '../VisualizationGrid/Constants';
 import { SelectionMenu } from "./SelectionMenu";
+import { mazeFactory } from '../../mazes/MazeFactory';
 
-const reducer = (state, {type, i, j, newAlgorithmType}) => {
+const reducer = (state, {type, i, j, newAlgorithmType, mazeType}) => {
   const handler = SelectionStateFactory.get(state.selectionState);
   switch (type) {
     case GridActions.mouseDown:
@@ -44,18 +45,30 @@ const reducer = (state, {type, i, j, newAlgorithmType}) => {
         selectionState: SelectionState.inactive
       }
     case SelectionState.nextIter:
-      const finished = state.algorithm.isFinished();
-      if (!finished) {
-        state.algorithm.executeIteration();
-      }
+      state.algorithm.executeIteration();
+      const isFinished = state.algorithm.isFinished();
       return {
         ...state,
         executionState: state.algorithm.getState(),
-        finished,
+        finished: isFinished,
+        pathDisplayIndex: 0,
         selectionState: SelectionState.inactive
       }
     case SelectionState.algorithmSelection:
       return {...state, algorithmType: newAlgorithmType}
+    case SelectionState.fillWithMaze:
+      const maze = mazeFactory.create(mazeType);
+      return {
+        ...state,
+        selectedOrigin: maze.getOrigin(),
+        selectedDestination: maze.getDestination(),
+        wallSquares: maze.getWalls()
+      }
+    case SelectionState.addNodeToPathDisplay:
+      return {
+        ...state,
+        pathDisplayIndex: state.pathDisplayIndex+1
+      };
     default:
       throw new Error('No such action '+type);
   }
@@ -70,6 +83,7 @@ export const Visualization = () => {
     algorithmType: null,
     algorithm: null,
     executionState: null,
+    pathDisplayIndex: null,
     finished: false,
     isDragging: false,
     readyToExecute: false

@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState, useRef} from "react";
 import { Point } from "../GridComponents/Point";
 import { SelectionContext } from "./SelectionContext";
 import { interpolateColor } from "./Utils";
@@ -12,6 +12,7 @@ import { SelectionState } from "./selectionStates/SelectionState";
 
 const Square = ({row, col}) => {
   const [squareIsDragging, setSquareIsDragging] = useState(false);
+  const [title, setTitle] = useState("");
   const {
     selectionState : {
       executionState,
@@ -20,33 +21,47 @@ const Square = ({row, col}) => {
       algorithm,
       wallSquares,
       isDragging,
-      selectionState
+      selectionState,
+      pathDisplayIndex,
+      finished
     },
     selectionDispatcher
   } = useContext(SelectionContext);
-
+  const point = Point.of(row, col);
+  
   const neitherOriginNorDestination = () => {
     return !Point.of(row, col).equals(selectedOrigin)
       && !Point.of(row, col).equals(selectedDestination);
   }
+
+  const pointIsWall = () => {
+    return wallSquares.contains(point);
+  }
   
-  const getTitle= () => {
-    if (!executionState) return "";
-    else if (!executionState.openSet.has(Point.of(row, col))) {
-      return "";
+  useEffect( () => {
+    if (finished) {
+      if (algorithm.isSuccess()) {
+        if (pathDisplayIndex!==null) {
+          if (algorithm.path.slice(pathDisplayIndex).contains(point)) {
+            setTitle("optimal-path");
+          }
+        }
+      }
+    } else if (!executionState) {setTitle("")}
+    else if (!executionState.openSet.has(point)) {
+      setTitle("");
     } else {
-      return "open-set";
+      setTitle("open-set");
     }
-  };
+  }, [executionState, pathDisplayIndex, algorithm, col, row, finished, point]);
 
   const getColor = () => {
-    const point = Point.of(row, col);
-
+    
     if (algorithm!==null) {
       if (algorithm.isFinished()) {
         if (algorithm.isSuccess()) {
-          if (algorithm.path.contains(Point.of(row, col))) {
-            return '#00FF7F';
+          if (algorithm.path.slice(pathDisplayIndex).contains(point)) {
+            return "aquamarine";
           }
         }
       }
@@ -122,15 +137,15 @@ const Square = ({row, col}) => {
           });
         }
       }}
-      title={getTitle()}
+      title={title}
       className={'square' + (squareIsDragging ? "-dragging" : "")}
       style= {{backgroundColor: getColor()}}
     >
       {Point.of(row, col).equals(selectedOrigin) || (selectionState===SelectionState.selectOrigin
-       && squareIsDragging )
+       && squareIsDragging && !pointIsWall() )
        ? <VscDebugStart color="#F9F6EE"/> : null}
       {Point.of(row, col).equals(selectedDestination)  || (selectionState===SelectionState.selectDestination
-       && squareIsDragging )
+       && squareIsDragging && !pointIsWall() )
        ? <VscRecord color="red"/> : null}
     </div>
   )
