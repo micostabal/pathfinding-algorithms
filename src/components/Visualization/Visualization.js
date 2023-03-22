@@ -3,8 +3,11 @@ import {VisualizationGrid} from '../VisualizationGrid/VisualizationGrid';
 import './Visualization.css';
 import { SelectionContext } from '../VisualizationGrid/SelectionContext';
 import  { SelectionState } from '../VisualizationGrid/selectionStates/SelectionState';
-import { Point } from '../GridComponents/Point';
-import { PointList } from '../GridComponents/PointList';
+import {
+  DEFAULT_START_POSITION,
+  DEFAULT_DESTINATION_POSITION
+} from '../VisualizationGrid/Constants';
+import { PointList } from '../DataStructures/PointList';
 import { algorithmFactory } from "../../PathFindingAlgorithms/AlgorithmFactory";
 import { SelectionStateFactory } from '../VisualizationGrid/selectionStates/SelectionStateFactory';
 import { GridActions } from '../VisualizationGrid/GridActions';
@@ -12,7 +15,14 @@ import { N_ROWS, N_COLUMNS } from '../VisualizationGrid/Constants';
 import { SelectionMenu } from "./SelectionMenu";
 import { mazeFactory } from '../../mazes/MazeFactory';
 
-const reducer = (state, {type, i, j, newAlgorithmType, mazeType}) => {
+const reducer = (state, {
+  type,
+  i,
+  j,
+  newAlgorithmType,
+  mazeType,
+  executionInterval
+}) => {
   const handler = SelectionStateFactory.get(state.selectionState);
   switch (type) {
     case GridActions.mouseDown:
@@ -42,6 +52,7 @@ const reducer = (state, {type, i, j, newAlgorithmType, mazeType}) => {
         algorithm: newAlgorithm,
         executionState: newAlgorithm.getState(),
         finished: newAlgorithm.isFinished(),
+        paused: false,
         selectionState: SelectionState.inactive
       }
     case SelectionState.nextIter:
@@ -52,7 +63,9 @@ const reducer = (state, {type, i, j, newAlgorithmType, mazeType}) => {
         executionState: state.algorithm.getState(),
         finished: isFinished,
         pathDisplayIndex: 0,
-        selectionState: SelectionState.inactive
+        paused: false,
+        selectionState: SelectionState.inactive,
+        executionInterval
       }
     case SelectionState.algorithmSelection:
       return {...state, algorithmType: newAlgorithmType}
@@ -69,6 +82,28 @@ const reducer = (state, {type, i, j, newAlgorithmType, mazeType}) => {
         ...state,
         pathDisplayIndex: state.pathDisplayIndex+1
       };
+    case SelectionState.clearSelection:
+      if (state.executionInterval!==null) {
+        clearInterval(state.executionInterval);
+      }
+      return {
+        ...state,
+        selectedOrigin: DEFAULT_START_POSITION,
+        selectedDestination: DEFAULT_DESTINATION_POSITION,
+        wallSquares: new PointList(),
+        algorithmType: null,
+        algorithm: null,
+        finished: false,
+        executionState: null,
+        selectionState: SelectionState.notSelected
+      };
+    case SelectionState.pauseExecution:
+      clearInterval(state.executionInterval);
+      return {
+        ...state,
+        executionInterval: null,
+        paused:true
+      };
     default:
       throw new Error('No such action '+type);
   }
@@ -78,11 +113,12 @@ export const Visualization = () => {
   const [selectionState, selectionDispatcher] = useReducer(reducer, {
     selectionState: SelectionState.notSelected,
     wallSquares: new PointList(),
-    selectedOrigin: Point.of(Math.floor(N_ROWS/2), Math.floor(N_COLUMNS/3)),
-    selectedDestination: Point.of(Math.floor(N_ROWS/2), Math.floor(2 * N_COLUMNS/3)),
+    selectedOrigin: DEFAULT_START_POSITION,
+    selectedDestination: DEFAULT_DESTINATION_POSITION,
     algorithmType: null,
     algorithm: null,
     executionState: null,
+    executionInterval: null,
     pathDisplayIndex: null,
     finished: false,
     isDragging: false,

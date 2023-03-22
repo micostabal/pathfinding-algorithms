@@ -5,6 +5,8 @@ export class PointMap {
     this._serializer=serializer;
     this._map = new Map();
   }
+
+  get map() {return this._map};
   
   has(key) {
     return this._map.has(this._serializer(key.toArray()));

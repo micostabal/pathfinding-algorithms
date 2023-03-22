@@ -9,5 +9,6 @@ export const SelectionState = {
   nextIter: 'nextIter',
   algorithmSelection: 'algorithm-selection',
   fillWithMaze: 'fill-wih-maze',
-  addNodeToPathDisplay: 'add-node-to-path-display'
+  addNodeToPathDisplay: 'add-node-to-path-display',
+  clearSelection: 'clear-selection'
 };

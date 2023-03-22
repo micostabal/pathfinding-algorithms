@@ -1,6 +1,7 @@
 import React from "react";
 import { AlgorithmSelection } from './AlgorithmSelection';
 import { ExecuteButton } from './ExecuteButton';
+import { ClearSelection } from "./ClearSelection";
 import { FillMazeSelection } from "./FillMazeSelection";
 
 export const SelectionMenu = () => {
@@ -20,6 +21,8 @@ export const SelectionMenu = () => {
       <AlgorithmSelection/>
       
       <ExecuteButton/>
+
+      <ClearSelection/>
     </div>
   )
 }

@@ -1,57 +1,22 @@
 import {
-  serializeTuple,
   distance,
-  PriorityQueue,
-  reconstructPath,
   gridNeighbors,
-  distanceToPoint
+  distanceToPoint,
+  serializeTuple
 } from './GridUtils';
+import { PriorityQueue } from '../components/DataStructures/PriorityQueue';
 import { Point } from '../components/GridComponents/Point';
-import { PointMap } from '../components/GridComponents/PointMap';
+import { PointMap } from '../components/DataStructures/PointMap';
+import { PathfindingAlgorithm } from './PathfindingAlgorithm';
+import { PointList } from '../components/DataStructures/PointList';
 
-export class AStar {
-
+export class AStar extends PathfindingAlgorithm {
+  
   constructor(n, m, walls, origin, destination) {
-    this._n=n;
-    this._m=m;
-    this._walls= walls;
-    this._origin=origin;
-    this._destination=destination;
+    super(n,m,walls,origin,destination);
+    this._openSet = new PriorityQueue(distanceToPoint(destination));
     this._gScore = new PointMap(serializeTuple);
     this._fScore = new PointMap(serializeTuple);
-    this._cameFrom = new PointMap(serializeTuple);
-    this._openSet = new PriorityQueue(distanceToPoint(destination));
-    this._finished=false;
-    this._success=null;
-    this._path=null;
-  }
-  
-  getState() {
-    return {
-      openSet: this._openSet,
-      gScore: this._gScore,
-      fScore: this._fScore
-    }
-  }
-  
-  get finished() {
-    return this._finished;
-  }
-
-  set finished(newValue) {
-    this._finished=newValue;
-  }
-  
-  isFinished() {
-    return this._finished;
-  }
-  
-  isSuccess() {
-    return this._success;
-  }
-
-  get path() {
-    return this._path;
   }
   
   initialize() {
@@ -92,19 +57,17 @@ export class AStar {
       }
     }
   }
+  
+  getState() {
+    const openSetPointList = new PointList();
+    openSetPointList.points = this._openSet.map;
+    
+    return {
+      openSet: openSetPointList,
+      gScore: this._gScore
+    }
+  }
 
-  terminateFail() {
-    this._finished=true;
-    this._success = false;
-    this._path = null;
-  }
-  
-  terminateSuccess(current) {
-    this._finished=true;
-    this._success = true;
-    this._path = reconstructPath(this._cameFrom, current);
-  }
-  
   suiteExecution() {
     this.initialize();
     while(!this._finished) {
@@ -113,5 +76,4 @@ export class AStar {
     }
     return [this._success, this._path];
   }
-
 }

@@ -1,5 +1,5 @@
 import { Point } from "../components/GridComponents/Point";
-import { PointList } from "../components/GridComponents/PointList";
+import { PointList } from "../components/DataStructures/PointList";
 
 export class TrivialMaze {
   

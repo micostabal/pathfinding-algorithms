@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState, useRef} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { Point } from "../GridComponents/Point";
 import { SelectionContext } from "./SelectionContext";
 import { interpolateColor } from "./Utils";
@@ -40,7 +40,7 @@ const Square = ({row, col}) => {
   
   useEffect( () => {
     if (finished) {
-      if (algorithm.isSuccess()) {
+      if (algorithm?.isSuccess()) {
         if (pathDisplayIndex!==null) {
           if (algorithm.path.slice(pathDisplayIndex).contains(point)) {
             setTitle("optimal-path");
@@ -48,7 +48,7 @@ const Square = ({row, col}) => {
         }
       }
     } else if (!executionState) {setTitle("")}
-    else if (!executionState.openSet.has(point)) {
+    else if (!executionState.openSet.contains(point)) {
       setTitle("");
     } else {
       setTitle("open-set");
@@ -68,7 +68,7 @@ const Square = ({row, col}) => {
     }
     
     if (executionState
-       && !executionState.openSet.has(Point.of(row, col))
+       && !executionState.openSet.contains(Point.of(row, col))
        && neitherOriginNorDestination()
       ) {
       
@@ -76,7 +76,7 @@ const Square = ({row, col}) => {
       
       if (scoreMap.get(point)<Number.POSITIVE_INFINITY) {
         
-        const ratio = distance(point, selectedDestination) /
+        const ratio = scoreMap.get(point) /
           distance(selectedOrigin, selectedDestination);
         return interpolateColor(
           START_COLOR,

@@ -18,7 +18,7 @@ export const About = () => {
           This app was created to have fun and learn about pathfinding in grids and React.
         </p>
         <p>
-          I Must confess I was hugely inspired by <a
+          I must confess I was hugely inspired by <a
             href="https://clementmihailescu.github.io/Pathfinding-Visualizer/"
             style={{color: 'orange', target: "_blank"}}
             rel="noreferrer"

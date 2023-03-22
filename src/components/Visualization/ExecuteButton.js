@@ -7,7 +7,7 @@ import { EXECUTION_INTERVAL } from "../VisualizationGrid/Constants";
 export const ExecuteButton = () => {
   const {
     selectionDispatcher,
-    selectionState: { algorithm, algorithmType }
+    selectionState: { algorithm, algorithmType, paused }
   } = useContext(SelectionContext);
   const [executing, setExecuting] = useState(false);
   
@@ -19,19 +19,23 @@ export const ExecuteButton = () => {
           clearInterval(executionInterval);
           return;
         }
-        selectionDispatcher({type: SelectionState.nextIter});
+        selectionDispatcher({type: SelectionState.nextIter, executionInterval});
       }, EXECUTION_INTERVAL);
       return () => clearInterval(executionInterval);
     }
-  }, [executing, algorithm, selectionDispatcher]);
+  }, [executing, algorithm, selectionDispatcher, paused]);
   
   return (
     <SelectionElement
-      text={executing ? "Restart" : "Execute"}
-      disabled={algorithmType===null || executing}
+      text={executing && !paused ? "Pause" : "Execute"}
+      disabled={algorithmType===null}
       onClick={() => {
         setExecuting( (ex) => !ex);
-        selectionDispatcher({type: SelectionState.execute});
+        if (executing) {
+          selectionDispatcher({type: SelectionState.pauseExecution});
+        } else if (algorithm===null) {
+          selectionDispatcher({type: SelectionState.execute});
+        }
       }}
     />
   )
