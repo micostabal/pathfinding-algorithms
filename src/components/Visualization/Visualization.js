@@ -36,6 +36,9 @@ const reducer = (state, {
     case GridActions.mouseOver:
       return handler.mouseOver(state, i, j);
     case SelectionState.execute:
+      if (state.executionInterval!==null) {
+        clearInterval(state.executionInterval);
+      }
       const newAlgorithm = algorithmFactory.create(
         state.algorithmType,
         [
@@ -94,6 +97,7 @@ const reducer = (state, {
         algorithmType: null,
         algorithm: null,
         finished: false,
+        paused: false,
         executionState: null,
         selectionState: SelectionState.notSelected
       };
@@ -121,6 +125,7 @@ export const Visualization = () => {
     executionInterval: null,
     pathDisplayIndex: null,
     finished: false,
+    paused: false,
     isDragging: false,
     readyToExecute: false
   });

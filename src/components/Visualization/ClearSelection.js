@@ -5,13 +5,14 @@ import { SelectionElement } from "./SelectionElement"
 
 export const ClearSelection = () => {
   const {
-    selectionDispatcher
+    selectionDispatcher,
+    selectionState: { paused, executionState, finished }
   } = useContext(SelectionContext);
   
   return (
     <SelectionElement
       text={"Clear Selection"}
-      disabled={false}
+      disabled={ !paused && executionState!==null && !finished }
       onClick={() => {
         selectionDispatcher({type: SelectionState.clearSelection});
       }}
