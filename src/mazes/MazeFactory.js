@@ -1,5 +1,6 @@
 import { N_ROWS, N_COLUMNS } from "../components/VisualizationGrid/Constants";
 import { TrivialMaze } from "./TrivialMaze";
+import { SpiralMaze } from "./SpiralMaze";
 
 export const MazeType = {
   trivial: 'trivial',
@@ -19,7 +20,7 @@ class MazeFactory {
       case MazeType.trivial:
         return new TrivialMaze(this._n,this._m);
       case MazeType.spiral:
-        return new TrivialMaze(this._n,this._m);
+        return new SpiralMaze(this._n,this._m);
       case MazeType.random:
         return new TrivialMaze(this._n,this._m);
       default:

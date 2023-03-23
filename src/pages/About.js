@@ -25,7 +25,7 @@ export const About = () => {
             target="_blank"
           >
             Clement Mihailescu's
-          </a> visualization (yeah! the <a href="https://www.youtube.com/@clem"
+          </a> visualization (a tech <a href="https://www.youtube.com/@clem"
           style={{color: 'orange'}}
           rel="noreferrer"
           target="_blank"
