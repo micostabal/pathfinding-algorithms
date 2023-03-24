@@ -22,9 +22,12 @@ export const FillMazeSelection = () => {
             type: SelectionState.fillWithMaze, mazeType: MazeType.trivial
           });
         }}/>
-        <DropDownOption text={"Random Maze"}/>
+        <DropDownOption text={"Random Maze"} onClick={() => {
+          selectionDispatcher({
+            type: SelectionState.fillWithMaze, mazeType: MazeType.random
+          });
+        }}/>
         <DropDownOption text={"Spiral Maze"} onClick={() => {
-          console.log('selection dispatcher');
           selectionDispatcher({
             type: SelectionState.fillWithMaze, mazeType: MazeType.spiral
           });

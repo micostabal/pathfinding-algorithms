@@ -54,7 +54,7 @@ const reducer = (state, {
         ...state,
         algorithm: newAlgorithm,
         executionState: newAlgorithm.getState(),
-        finished: newAlgorithm.isFinished(),
+        finished: false,
         paused: false,
         selectionState: SelectionState.inactive
       }

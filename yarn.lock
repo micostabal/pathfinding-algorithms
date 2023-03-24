@@ -4825,6 +4825,11 @@
   "resolved" "https://registry.npmjs.org/functions-have-names/-/functions-have-names-1.2.3.tgz"
   "version" "1.2.3"
 
+"generate-maze@^1.1.0":
+  "integrity" "sha512-QMZ2PB/1EzKkZK9zLA33brVIU5rdN/+fUQok2Z1yaCEoVBd7L7nCF2q2b+o4wlYrqW4xDjTzRIsKfjzwXJXmMA=="
+  "resolved" "https://registry.npmjs.org/generate-maze/-/generate-maze-1.1.0.tgz"
+  "version" "1.1.0"
+
 "gensync@^1.0.0-beta.2":
   "integrity" "sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg=="
   "resolved" "https://registry.npmjs.org/gensync/-/gensync-1.0.0-beta.2.tgz"
@@ -6470,11 +6475,6 @@
   "version" "1.0.12"
   dependencies:
     "tmpl" "1.0.5"
-
-"maze-generator@^0.1.2":
-  "integrity" "sha512-pO2vFebwwRsKnztceR0VcgLMNaYynUO6XSNJepke8t8zJewQbB3D8Mltf+ZSDOFxhXba+4aeleM/nR3pDbxxeQ=="
-  "resolved" "https://registry.npmjs.org/maze-generator/-/maze-generator-0.1.2.tgz"
-  "version" "0.1.2"
 
 "mdn-data@2.0.14":
   "integrity" "sha512-dn6wd0uw5GsdswPFfsgMp5NSB0/aDe6fK94YJV/AJDYXL6HVLWBsxeq7js7Ad+mU2K9LAlwpk6kN2D5mwCPVow=="
