@@ -30,7 +30,6 @@ describe('basic behaviour', () => {
     expect(firstPop.equals(Point.of(0, 1))).toBe(true);
     expect(list.contains(firstPop)).toBe(false);
     const secondPop = list.popMinDist(cost);
-    console.log(secondPop);
     expect(secondPop.equals(Point.of(1, 1))).toBe(true);
     expect(list.contains(secondPop)).toBe(false);
   });

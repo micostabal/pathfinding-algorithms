@@ -12,6 +12,7 @@ import { SelectionState } from "./selectionStates/SelectionState";
 
 const Square = ({row, col}) => {
   const [squareIsDragging, setSquareIsDragging] = useState(false);
+  const [color, setColor] = useState("#5B5EA6");
   const [title, setTitle] = useState("");
   const {
     selectionState : {
@@ -29,24 +30,19 @@ const Square = ({row, col}) => {
   } = useContext(SelectionContext);
   const point = Point.of(row, col);
   
-  const neitherOriginNorDestination = () => {
-    return !Point.of(row, col).equals(selectedOrigin)
-      && !Point.of(row, col).equals(selectedDestination);
-  }
-
   const pointIsWall = () => {
     return wallSquares.contains(point);
   }
   
   useEffect( () => {
-    if (finished) {
-      if (algorithm?.isSuccess()) {
-        if (pathDisplayIndex!==null) {
-          if (algorithm.path.slice(pathDisplayIndex).contains(point)) {
-            setTitle("optimal-path");
-          }
-        }
-      }
+    if (finished
+      && algorithm?.isSuccess() 
+      && pathDisplayIndex!==null
+      && algorithm
+        .path
+        .slice(pathDisplayIndex)
+        .contains(point)) {
+      setTitle("optimal-path");
     } else if (!executionState) {setTitle("")}
     else if (!executionState.openSet.contains(point)) {
       setTitle("");
@@ -55,41 +51,30 @@ const Square = ({row, col}) => {
     }
   }, [executionState, pathDisplayIndex, algorithm, col, row, finished, point]);
 
-  const getColor = () => {
-    
-    if (algorithm!==null) {
-      if (algorithm.isFinished()) {
-        if (algorithm.isSuccess()) {
-          if (algorithm.path.slice(pathDisplayIndex).contains(point)) {
-            return "aquamarine";
-          }
-        }
-      }
-    }
-    
-    if (executionState
-       && !executionState.openSet.contains(Point.of(row, col))
-       && neitherOriginNorDestination()
-      ) {
-      
+  useEffect( () => {
+    if (wallSquares.contains(Point.of(row, col))) {
+      setColor('black');
+    } else if (algorithm!==null && algorithm?.isFinished() && algorithm?.isSuccess() 
+      && algorithm?.path.slice(pathDisplayIndex).contains(point)) {
+      return setColor("aquamarine");
+    } else if (executionState!== null) {
       const scoreMap = executionState.gScore;
-      
       if (scoreMap.get(point)<Number.POSITIVE_INFINITY) {
-        
-        const ratio = scoreMap.get(point) /
-          distance(selectedOrigin, selectedDestination);
-        return interpolateColor(
+        const distanceToOrigin = scoreMap.get(point);
+        const ratio = distanceToOrigin / distance(selectedOrigin, selectedDestination);
+        const newColor = interpolateColor(
           START_COLOR,
           END_COLOR,
           ratio
         );
+        setColor(newColor);
       }
+    } else {
+      setColor("#5B5EA6");
     }
-    if (wallSquares.contains(Point.of(row, col))) {
-      return 'black';
-    }
-    return '#5B5EA6';
-  }
+  }, [algorithm, pathDisplayIndex, col, executionState, wallSquares,
+    point, row, selectedOrigin, selectedDestination, color
+  ]);
   
   return (
     <div
@@ -139,7 +124,7 @@ const Square = ({row, col}) => {
       }}
       title={title}
       className={'square' + (squareIsDragging ? "-dragging" : "")}
-      style= {{backgroundColor: getColor()}}
+      style= {{backgroundColor: color}}
     >
       {Point.of(row, col).equals(selectedOrigin) || (selectionState===SelectionState.selectOrigin
        && squareIsDragging && !pointIsWall() )

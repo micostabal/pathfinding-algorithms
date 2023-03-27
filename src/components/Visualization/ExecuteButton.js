@@ -12,7 +12,7 @@ export const ExecuteButton = () => {
   const [executing, setExecuting] = useState(false);
   
   useEffect( () => {
-    if (executing) {
+    if (executing && algorithm!==null) {
       let executionInterval = setInterval( () => {
         if (algorithm.finished) {
           setExecuting(false);
@@ -30,12 +30,18 @@ export const ExecuteButton = () => {
       text={executing && !paused ? "Pause" : "Execute"}
       disabled={algorithmType===null}
       onClick={() => {
-        setExecuting( (ex) => !ex);
         if (executing) {
+          setExecuting(false);
           selectionDispatcher({type: SelectionState.pauseExecution});
-        } else if (algorithm===null) {
-          selectionDispatcher({type: SelectionState.execute});
+        } else {
+          if (algorithmType!==null && paused) {
+            // Debería llamar a algo que siga con la iteracion en caso de que se haya pausado
+          } else if (algorithmType!==null && !paused) {
+            selectionDispatcher({type: SelectionState.execute});
+          }
+          setExecuting(true);
         }
+        
       }}
     />
   )

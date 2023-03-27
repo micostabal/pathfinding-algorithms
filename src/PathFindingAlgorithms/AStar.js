@@ -46,7 +46,7 @@ export class AStar extends PathfindingAlgorithm {
     this._openSet.remove(current);
     for ( let neighbor of gridNeighbors(current.row, current.col, this._n, this._m) ) {
       if (this._walls.contains(neighbor)) continue;
-      const tentativeGScore = this._gScore.get(current) + distance(current, neighbor);
+      const tentativeGScore = this._gScore.get(current) + 1;
       if (tentativeGScore < this._gScore.get(neighbor)) {
         this._cameFrom.set(neighbor, current);
         this._gScore.set(neighbor, tentativeGScore);
