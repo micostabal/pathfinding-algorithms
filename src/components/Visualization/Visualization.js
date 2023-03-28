@@ -71,7 +71,14 @@ const reducer = (state, {
         executionInterval
       }
     case SelectionState.algorithmSelection:
-      return {...state, algorithmType: newAlgorithmType}
+      return {
+        ...state,
+        executionState: null,
+        finished: false,
+        selectionState: SelectionState.notSelected,
+        algorithmType: newAlgorithmType,
+        algorithm: null
+      }
     case SelectionState.fillWithMaze:
       const maze = mazeFactory.create(mazeType);
       return {
