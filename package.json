@@ -5,6 +5,8 @@
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/user-event": "^13.5.0",
+    "cypress": "^12.9.0",
+    "cypress-real-events": "^1.7.6",
     "generate-maze": "^1.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -21,12 +23,14 @@
     "build": "react-scripts build",
     "test": "npx jest __tests__/*",
     "intTests": "npx jest __tests__/ExampleReactTestingLibrary.js --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress": "cypress open"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "plugin:cypress/recommended"
     ]
   },
   "browserslist": {
@@ -42,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "@4tw/cypress-drag-drop": "^2.2.3",
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-react": "^7.18.6",
     "@testing-library/react": "^14.0.0",
